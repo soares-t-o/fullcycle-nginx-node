@@ -8,8 +8,6 @@ services:
         image: thiagoosoares/fullcycle-node
         networks: 
             - node-network
-        volumes: 
-            - ./node:/usr/src/app
         tty: true
         ports:
             - "3000:3000"
@@ -21,8 +19,6 @@ services:
         container_name: db
         restart: always
         tty: true
-        volumes: 
-            - ./mysql-fullcycle:/var/lib/mysql
         environment: 
             - MYSQL_DATABASE=nodedb
             - MYSQL_ROOT_PASSWORD=root
@@ -39,6 +35,8 @@ services:
             - node-network
         ports: 
             - "8080:80"
+        depends_on: 
+            - fullcycle-node
             
 networks: 
     node-network:

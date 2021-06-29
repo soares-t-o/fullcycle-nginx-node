@@ -14,10 +14,9 @@ app.get('/insert/people/:name', (req,res) => {
     let connection = mysql.createConnection(config)
     createTable(connection)
     let sql = `insert into people(nome) values ("${req.params.name}");`
-    var response = "<h1>Full Cycle</h1><br/>"
     connection.query(sql);
     connection.end()
-    res.send(response)
+    res.redirect("/")
 })
 
 app.get('/', (req,res)=>{
@@ -29,13 +28,14 @@ app.get('/', (req,res)=>{
         if (error) res.send(nomes+"<h3>Ocorreu um erro na busca</h3>");
         if (results.length == 0){
             nomes += `<h4>Sem Registros Cadastrados!!!</h4>
-                    <h3> Para adicionar um registro utilize a senguinte URL:</h3>
-                    /insert/people/<Nome que deseja cadastrar>
+                   
             `
         }
         for (let i = 0; i< results.length; i++){
             nomes +="<h2>"+results[i].nome+"</h2>"
         }
+        nomes+=` <h3> Para adicionar um registro utilize a senguinte URL:</h3>
+        /insert/people/:Nome`
         res.send(nomes)
     });
 })
